@@ -12,7 +12,7 @@ let bgPosX1 = 0;
 let bgPosX2;
 
 // trail code
-let trailSpeedX = 10;
+let trailSpeedX = 20;
 let trailPosX1 = 0;
 let trailPosX2;
 
@@ -21,8 +21,8 @@ let cloudSpeedX = 0.3;
 let cloudPosX = 0;
 
 // train code
-let trainPosX = 0;
-let trainPosY = 1;
+let trainPosX = 500;
+let trainPosY = 280;
 
 let x = 0;
 let y = 0;
@@ -108,17 +108,17 @@ function drawTrain() {
   if (x > width + dim) {
     x = -dim;
   }
-  image(train, 500, 200, 150, 90);
+  image(train, trainPosX, trainPosY, 150, 90);
   translate(x, height / 2 - dim / 2);
   image(trainShadow, 0, 120, 180, 160)
 }
 
 function moveTrain() {
-  trainPosY = 1 + (random(-1, 1));
+  trainPosY = 10+ (random(-1, 1));
   if (trainPosY >= 1) {
-    trainPosY = 1;
+    trainPosY = 10;
   } if (trainPosY <= 0) {
-    trainPosY = 1;
+    trainPosY = 10;
   }
 }
 
