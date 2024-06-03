@@ -13,7 +13,7 @@ let bgPosX2;
 
 // trail code
 let trailSpeedX = 20;
-let trailPosX1 = 0;
+let trailPosX1 = 35;
 let trailPosX2;
 
 // cloud code
@@ -22,7 +22,7 @@ let cloudPosX = 0;
 
 // train code
 let trainPosX = 500;
-let trainPosY = 280;
+let trainPosY = 200;
 
 let x = 0;
 let y = 0;
@@ -41,7 +41,7 @@ function setup() {
 function preload() {
   backgroundImage = loadImage("./assets/background-og.jpg");
   cloud = loadImage("./assets/cloud.jpg");
-  trail = loadImage("./assets/train-og.png");
+  trail = loadImage("./assets/sorry.png");
   train = loadImage("./assets/train-og.png");
   trainShadow = loadImage("./assets/robot-yellow.png");
   // music = loadSound("assets/music.mp3");
@@ -70,8 +70,8 @@ function moveBG() {
 
 // trail functions
 function drawTrail() {
-  image(trail, trailPosX1, 0, width, height);
-  image(trail, trailPosX2, 0, width, height);
+  image(trail, trailPosX1, 50, width/8, height/8);
+  image(trail, trailPosX2, 50, width/8, height/8);
 }
 
 function moveTrail() {
@@ -137,7 +137,7 @@ function draw() {
   moveBG();
   drawTrain();
   // moveTrain();
-  // drawTrail();
+  drawTrail();
   // moveTrail();
   // playMusic();
 }
