@@ -100,13 +100,13 @@ function moveCloud() {
 
 // train functions
 function drawTrain() {
-  image(train, 200, 200, 250, 136);
+  image(train, 200, 200, 500, 136);
   // image(trainShadow, trainPosX, trainPosY + 30, 456, 136)
 }
 
 function moveTrain() {
   trainPosY = 1 + (random(-1, 1));
-  if (trainPosY >= 200) {
+  if (trainPosY >=  0) {
     trainPosY = 1;
   } if (trainPosY <= 0) {
     trainPosY = 1;
