@@ -39,11 +39,11 @@ function setup() {
 
 // carregando assets
 function preload() {
-  backgroundImage = loadImage("../assets/background-og.jpg");
-  cloud = loadImage("../assets/cloud.jpg");
-  trail = loadImage("../assets/train-og.png");
-  train = loadImage("../assets/train-og.png");
-  trainShadow = loadImage("../assets/robot-yellow.png");
+  backgroundImage = loadImage("./assets/background-og.jpg");
+  cloud = loadImage("./assets/cloud.jpg");
+  trail = loadImage("./assets/train-og.png");
+  train = loadImage("./assets/train-og.png");
+  trainShadow = loadImage("./assets/robot-yellow.png");
   // music = loadSound("assets/music.mp3");
 }
 
