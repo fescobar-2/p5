@@ -24,6 +24,10 @@ let cloudPosX = 0;
 let trainPosX = 0;
 let trainPosY = 1;
 
+let x = 0;
+let y = 0;
+let dim = 80.0;
+
 function setup() {
   createCanvas(626*1.5, 417*1.5);
   trailPosX2 = width;
@@ -39,7 +43,7 @@ function preload() {
   cloud = loadImage("../assets/cloud.jpg");
   trail = loadImage("../assets/train-og.png");
   train = loadImage("../assets/train-og.png");
-  trainShadow = loadImage("../assets/train-og.png");
+  trainShadow = loadImage("../assets/robot-yellow.png");
   // music = loadSound("assets/music.mp3");
 }
 
@@ -52,8 +56,8 @@ function drawBG() {
 }
 
 function moveBG() {
-  bgPosX1 += 0.1;
-  bgPosX2 += 0.1;
+  bgPosX1 += 1;
+  bgPosX2 += 1;
   
   if (bgPosX1 >= width){
     bgPosX1 = -width + 0.1;
@@ -100,13 +104,18 @@ function moveCloud() {
 
 // train functions
 function drawTrain() {
-  image(train, 200, 200, 250, 136);
-  // image(trainShadow, trainPosX, trainPosY + 30, 456, 136)
+  x = x + 0.8;
+  if (x > width + dim) {
+    x = -dim;
+  }
+  image(train, 500, 200, 150, 90);
+  translate(x, height / 2 - dim / 2);
+  image(trainShadow, 0, 120, 180, 160)
 }
 
 function moveTrain() {
   trainPosY = 1 + (random(-1, 1));
-  if (trainPosY >= 200) {
+  if (trainPosY >= 1) {
     trainPosY = 1;
   } if (trainPosY <= 0) {
     trainPosY = 1;
@@ -126,9 +135,9 @@ function playMusic() {
 function draw() {
   drawBG();
   moveBG();
+  drawTrain();
+  // moveTrain();
   // drawTrail();
   // moveTrail();
-  drawTrain();
-  moveTrain();
   // playMusic();
 }
