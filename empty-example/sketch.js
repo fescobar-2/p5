@@ -38,7 +38,7 @@ function preload() {
   backgroundImage = loadImage("../assets/background-og.jpg");
   cloud = loadImage("../assets/cloud.jpg");
   trail = loadImage("../assets/train-og.png");
-  train = loadImage("../assets/train-og.png");
+  train = loadImage("../assets/sorry.png");
   trainShadow = loadImage("../assets/train-og.png");
   // music = loadSound("assets/music.mp3");
 }
