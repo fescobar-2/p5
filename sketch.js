@@ -13,7 +13,7 @@ let bgPosX2;
 
 // trail code
 let trailSpeedX = 20;
-let trailPosX1 = 35;
+let trailPosX1 = 30;
 let trailPosX2;
 
 // cloud code
