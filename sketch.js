@@ -70,8 +70,8 @@ function moveBG() {
 
 // trail functions
 function drawTrail() {
-  image(trail, trailPosX1, 50, width/8, height/8);
-  image(trail, trailPosX2, 50, width/8, height/8);
+  image(trail, trailPosX1, 50, width/4, height/8);
+  image(trail, trailPosX2, 50, width/4, height/8);
 }
 
 function moveTrail() {
