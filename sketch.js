@@ -72,7 +72,7 @@ let rocketImageRed; // Rocket image
 let newImageRed; // New image when the red rocket lands
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1640,760);
   textSize(24);
   trailPosX2 = width;
   bgPosX2 = width;
@@ -104,7 +104,7 @@ function preload() {
   redRobot = loadImage("./assets/robot-red.png")
   train = loadImage("./assets/train-og.png");
   yellowRobot = loadImage("./assets/robot-yellow.png");
-  // music = loadSound("assets/music.mp3");
+  // music = loadSound("assets/pixel-song.wav");  
   img1 = loadImage("./assets/train-og.png");; // replace with your image path
   img2 = loadImage("./assets/robot-yellow.png");; // replace with your image path
   pinkShip = loadImage("./assets/space-ship-pink.png");
@@ -135,13 +135,6 @@ function drawAxes() {
     line(width / 2 - 5, i, width / 2 + 5, i);
     text(i, width / 2 + 8, i + 3);
   }
-}
-
-function drawFont() {
-  // background(0);
-  // fill(255);
-  text('Pixel Font!', 268, 600);
-  text('Pixel Font!', 615, 600);
 }
 
 function drawBG() {
@@ -309,12 +302,12 @@ function drawRocketLandingYellow() {
     rotate(HALF_PI); // Rotate the image to be nose-up for descent
   }
   imageMode(CENTER);
-  image(rocketImageYellow, 0, 0, 150, 80); // Adjust size to fit your rocket image
+  image(rocketImageYellow, 0, 0, 200, 100); // Adjust size to fit your rocket image
   pop();
 
   // Display the new image next to the existing rocket image
   if (rocketY === 500) {
-    image(newImageYellow, rocketX + 75, rocketY - 40, 150, 80);
+    image(newImageYellow, rocketX + 75, rocketY - 40, 180, 90);
   }
 }
 
@@ -351,12 +344,12 @@ function drawRocketLandingRed() {
     rotate(HALF_PI); // Rotate the image to be nose-up for descent
   }
   imageMode(CENTER);
-  image(rocketImageRed, 0, 0, 150, 80); // Adjust size to fit your red rocket image
+  image(rocketImageRed, 0, 0, 200, 80); // Adjust size to fit your red rocket image
   pop();
 
   // Display the new image next to the existing rocket image
   if (rocketY2 === 500) {
-    image(newImageRed, rocketX2 + 75, rocketY2 - 40, 150, 80);
+    image(newImageRed, rocketX2 + 75, rocketY2 - 40, 180, 90);
   }
 }
 
@@ -375,8 +368,8 @@ function draw() {
     // drawTrail();
     // moveTrail();
     // drawFont();
-    // playMusic();
-    drawAxes();
+    playMusic();
+    // drawAxes();
   }
 }
 
