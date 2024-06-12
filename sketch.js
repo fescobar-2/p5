@@ -145,14 +145,14 @@ function drawBG() {
   image(sky, bgPosX1, 0, width, height * 1.5);
   image(sky, bgPosX2, 0, width, height * 1.5);
   // Draw and update stars
-  for (let star of stars) {
-    star.update();
-    star.display();
-  }
+  // for (let star of stars) {
+  //   star.update();
+  //   star.display();
+  // }
   image(grassmountains, bgPosX1, 0, width, height);
   image(grassmountains, bgPosX2, 0, width, height);
   drawTrain();
-  image(floor, -15, 0, width, height);
+  image(floor, -15, 0, width*1.1, height);
 }
 
 function moveBG() {
@@ -288,8 +288,8 @@ function drawRocketLandingYellow() {
     rocketY += descentSpeed;
 
     // Ensure it doesn't go off the screen
-    if (rocketY > 500) {
-      rocketY = 500;
+    if (rocketY > 600) {
+      rocketY = 600;
     }
   }
 
@@ -306,8 +306,8 @@ function drawRocketLandingYellow() {
   pop();
 
   // Display the new image next to the existing rocket image
-  if (rocketY === 500) {
-    image(newImageYellow, rocketX + 75, rocketY - 40, 180, 90);
+  if (rocketY > 599) {
+    image(newImageYellow, rocketX + 75, rocketY - 40, 200, 150);
   }
 }
 
@@ -330,8 +330,8 @@ function drawRocketLandingRed() {
     rocketY2 += descentSpeed;
 
     // Ensure it doesn't go off the screen or below y = 700
-    if (rocketY2 > 500) {
-      rocketY2 = 500;
+    if (rocketY2 > 600) {
+      rocketY2 = 600;
     }
   }
 
@@ -344,12 +344,12 @@ function drawRocketLandingRed() {
     rotate(HALF_PI); // Rotate the image to be nose-up for descent
   }
   imageMode(CENTER);
-  image(rocketImageRed, 0, 0, 200, 80); // Adjust size to fit your red rocket image
+  image(rocketImageRed, 0, 0, 180, 130); // Adjust size to fit your red rocket image
   pop();
 
   // Display the new image next to the existing rocket image
-  if (rocketY2 === 500) {
-    image(newImageRed, rocketX2 + 75, rocketY2 - 40, 180, 90);
+  if (rocketY2 > 599) {
+    image(newImageRed, rocketX2 + 75, rocketY2 - 40, 200, 150);
   }
 }
 
@@ -368,7 +368,7 @@ function draw() {
     // drawTrail();
     // moveTrail();
     // drawFont();
-    playMusic();
+    // playMusic();
     // drawAxes();
   }
 }
