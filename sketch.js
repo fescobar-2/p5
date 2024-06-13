@@ -1,6 +1,6 @@
 let stars = [];
 let pages = [
-  "Once upon a time in a land far away, there lived a wise old owl. He was known throughout the forest for his knowledge and wisdom. The animals would come from far and wide to seek his advice.",
+  "Once upon a time in a galaxy far far away lived two little robots, they had been hanging out for a long time, everything was going ok, until .",
   "One day, a young rabbit came to the owl with a problem. 'I want to be the fastest animal in the forest,' said the rabbit. The owl thought for a moment and then replied, 'To be the fastest, you must practice every day and never give up.'"
 ];
 let currentPage = 0;
@@ -65,6 +65,9 @@ let rocketX2, rocketY2, angle2 = 3.14 / 2, descent2 = false;
 const cx2 = 300; // Initial x position for the second rocket
 const cy2 = 100; // Initial y position for the second rocket
 
+let redRocketLanded = false;
+let yellowRocketLanded = false;
+
 // Elliptical path parameters for the second rocket
 const ellipseRadiusX = 150;
 const ellipseRadiusY = 75;
@@ -72,17 +75,13 @@ let rocketImageRed; // Rocket image
 let newImageRed; // New image when the red rocket lands
 
 function setup() {
-  createCanvas(1640,760);
+  createCanvas(1640, 760);
   textSize(24);
   trailPosX2 = width;
   bgPosX2 = width;
   textSize(32);
   fill(0);
   timer = millis(); // Initialize the timer
-  // Create some initial stars
-  for (let i = 0; i < 100; i++) {
-    stars.push(new Star(random(width), random(height)));
-  }
   //rocket landing
   cx = width / 2;
   cy = height / 2 - radius;
@@ -144,15 +143,10 @@ function drawBG() {
   // Draw the images
   image(sky, bgPosX1, 0, width, height * 1.5);
   image(sky, bgPosX2, 0, width, height * 1.5);
-  // Draw and update stars
-  // for (let star of stars) {
-  //   star.update();
-  //   star.display();
-  // }
   image(grassmountains, bgPosX1, 0, width, height);
   image(grassmountains, bgPosX2, 0, width, height);
   drawTrain();
-  image(floor, -15, 0, width*1.1, height);
+  image(floor, -15, 0, width * 1.1, height);
 }
 
 function moveBG() {
@@ -168,22 +162,6 @@ function moveBG() {
   }
 }
 
-// // trail functions
-// function drawTrail() {
-//   image(trail, trailPosX1, 50, width / 4, height / 8);
-//   image(trail, trailPosX2, 50, width / 4, height / 8);
-// }
-
-// function moveTrail() {
-//   trailPosX1 += trailSpeedX;
-//   trailPosX2 += trailSpeedX;
-
-//   if (trailPosX1 >= width) {
-//     trailPosX1 = -width + 10;
-//   } if (trailPosX2 >= width) {
-//     trailPosX2 = -width + 10;
-//   }
-// }
 
 // train functions
 function drawTrain() {
@@ -268,72 +246,90 @@ function nextPage() {
 }
 
 function drawRocketLandingYellow() {
-  // background(0);
+  if (!yellowRocketLanded) {
 
-  if (!descent) {
-    // Circular motion for quarter-circle (from PI/2 to PI)
-    rocketX = cx + radius * cos(angle);
-    rocketY = cy + radius * sin(angle);
-    angle += 0.02; // Increment the angle to move the rocket
+    if (!descent) {
+      // Circular motion for quarter-circle (from PI/2 to PI)
+      rocketX = cx + radius * cos(angle);
+      rocketY = cy + radius * sin(angle);
+      angle += 0.02; // Increment the angle to move the rocket
 
-    // Check if we should start descending (angle has rotated through quarter circle)
-    if (angle >= PI) {
-      descent = true;
-      // Set the rocket to the vertical position at the end of the circular path
-      rocketX = cx + radius * cos(PI);
-      rocketY = cy + radius * sin(PI);
+      // Check if we should start descending (angle has rotated through quarter circle)
+      if (angle >= PI) {
+        descent = true;
+        // Set the rocket to the vertical position at the end of the circular path
+        rocketX = cx + radius * cos(PI);
+        rocketY = cy + radius * sin(PI);
+      }
+    } else {
+      // Descent
+      rocketY += descentSpeed;
+
+      // Ensure it doesn't go off the screen
+      if (rocketY > 600) {
+        rocketY = 600;
+        yellowRocketLanded = true;
+      }
     }
-  } else {
-    // Descent
-    rocketY += descentSpeed;
 
-    // Ensure it doesn't go off the screen
-    if (rocketY > 600) {
-      rocketY = 600;
+    // Draw the rocket with rotation
+    push();
+    translate(rocketX, rocketY);
+    if (!descent) {
+      rotate(angle - HALF_PI); // Rotate the rocket as it moves in the quarter-circle path
+    } else {
+      rotate(HALF_PI); // Rotate the image to be nose-up for descent
     }
-  }
-
-  // Draw the rocket with rotation
-  push();
-  translate(rocketX, rocketY);
-  if (!descent) {
-    rotate(angle - HALF_PI); // Rotate the rocket as it moves in the quarter-circle path
-  } else {
-    rotate(HALF_PI); // Rotate the image to be nose-up for descent
-  }
-  imageMode(CENTER);
-  image(rocketImageYellow, 0, 0, 200, 100); // Adjust size to fit your rocket image
-  pop();
-
-  // Display the new image next to the existing rocket image
-  if (rocketY > 599) {
-    image(newImageYellow, rocketX + 75, rocketY - 40, 200, 150);
+    imageMode(CENTER);
+    image(rocketImageYellow, 0, 0, 200, 100); // Adjust size to fit your rocket image
+    pop();
+  }else{
+    drawRocketLaunchYellow();
   }
 }
 
+function drawRocketLaunchYellow(){
+  // image(yellowShip, rocketX, rocketY, 50, 50);
+  image(newImageYellow, rocketX + 75, rocketY - 40, 200, 150);
+  drawRotatedImageYellow(rocketImageYellow, rocketX, rocketY, 200, 100); // Example usage
+}
+
+function drawRotatedImageYellow(img, x, y, w, h) {
+  push();
+  translate(rocketX, rocketY); // Move the origin to the center of the image
+  rotate(HALF_PI); // Rotate 90 degrees to the right (clockwise)
+  imageMode(CENTER);
+  image(img, 0, 0, w, h); // Draw the image centered at the new origin
+  pop();
+}
+
 function drawRocketLandingRed() {
-  if (!descent2) {
-    // Elliptical motion for the second rocket
-    rocketX2 = cx2 + ellipseRadiusX * cos(angle2);
-    rocketY2 = cy2 + ellipseRadiusY * sin(angle2);
-    angle2 += 0.02; // Increment the angle to move the rocket
+  if (!redRocketLanded) {
+    if (!descent2) {
+      // Elliptical motion for the second rocket
+      rocketX2 = cx2 + ellipseRadiusX * cos(angle2);
+      rocketY2 = cy2 + ellipseRadiusY * sin(angle2);
+      angle2 += 0.02; // Increment the angle to move the rocket
 
-    // Check if we should start descending (angle has rotated through quarter ellipse)
-    if (angle2 >= PI) {
-      descent2 = true;
-      // Set the rocket to the vertical position at the end of the elliptical path
-      rocketX2 = cx2 + ellipseRadiusX * cos(PI);
-      rocketY2 = cy2 + ellipseRadiusY * sin(PI);
-    }
-  } else {
-    // Descent
-    rocketY2 += descentSpeed;
+      // Check if we should start descending (angle has rotated through quarter ellipse)
+      if (angle2 >= PI) {
+        descent2 = true;
+        // Set the rocket to the vertical position at the end of the elliptical path
+        rocketX2 = cx2 + ellipseRadiusX * cos(PI);
+        rocketY2 = cy2 + ellipseRadiusY * sin(PI);
+      }
+    } else {
+      // Descent
+      rocketY2 += descentSpeed;
 
-    // Ensure it doesn't go off the screen or below y = 700
-    if (rocketY2 > 600) {
-      rocketY2 = 600;
+      // Ensure it doesn't go off the screen or below y = 700
+      if (rocketY2 > 600) {
+        rocketY2 = 600;
+        redRocketLanded = true; // Mark the red rocket as landed
+      }
     }
   }
+
 
   // Draw the second rocket with rotation
   push();
@@ -348,9 +344,25 @@ function drawRocketLandingRed() {
   pop();
 
   // Display the new image next to the existing rocket image
-  if (rocketY2 > 599) {
-    image(newImageRed, rocketX2 + 75, rocketY2 - 40, 200, 150);
+  if (redRocketLanded) {
+    drawRocketLaunchRed();
   }
+}
+
+function drawRotatedImageRed(img, x, y, w, h) {
+  push();
+  translate(rocketX2, rocketY2); // Move the origin to the center of the image
+  rotate(HALF_PI); // Rotate 90 degrees to the right (clockwise)
+  imageMode(CENTER);
+  image(img, 0, 0, w, h); // Draw the image centered at the new origin
+  pop();
+}
+
+function drawRocketLaunchRed(){
+  // image(yellowShip, rocketX, rocketY, 50, 50);
+  image(newImageRed, rocketX2 + 75, rocketY2 - 40, 200, 150);
+  drawRotatedImageRed(rocketImageRed, rocketX2, rocketY2, 200, 100); // Example usage
+  rocketY2 -= descentSpeed
 }
 
 function draw() {
@@ -370,26 +382,5 @@ function draw() {
     // drawFont();
     // playMusic();
     // drawAxes();
-  }
-}
-
-class Star {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.size = random(2, 6);
-    this.brightness = random(100, 255);
-    this.twinkleRate = random(0.05, 0.2); // Twinkle rate controls how quickly the brightness changes
-    this.twinkleOffset = random(TWO_PI); // Offset for each star's twinkle effect
-  }
-
-  update() {
-    // Update brightness based on a sine wave to create twinkling effect
-    this.brightness = map(sin(frameCount * this.twinkleRate + this.twinkleOffset), -1, 1, 100, 255);
-  }
-
-  display() {
-    fill(this.brightness);
-    square(this.x, this.y, this.size);
   }
 }
