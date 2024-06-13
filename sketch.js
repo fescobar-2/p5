@@ -76,6 +76,7 @@ let newImageRed; // New image when the red rocket lands
 
 function setup() {
   createCanvas(1640, 760);
+  pixelDensity(1)
   textSize(24);
   trailPosX2 = width;
   bgPosX2 = width;
