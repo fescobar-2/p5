@@ -27,7 +27,7 @@ let yellowRobot;
 let music;
 
 //bg code
-let bgSpeedX = 0.2;
+let bgSpeedX = 0.1;
 let bgPosX1 = 0;
 let bgPosX2;
 
@@ -67,6 +67,10 @@ const cy2 = 100; // Initial y position for the second rocket
 
 let redRocketLanded = false;
 let yellowRocketLanded = false;
+let redRocketLaunch = false;
+let yellowRocketLaunch = false;
+let redRobotX = 300;
+let robotHappy = false;
 
 // Elliptical path parameters for the second rocket
 const ellipseRadiusX = 150;
@@ -117,6 +121,8 @@ function preload() {
   rocketImageRed = loadImage('./assets/space-ship-pink.png');
   newImageYellow = loadImage('./assets/robot-yellow.png'); // Load the new image for the yellow rocket
   newImageRed = loadImage('./assets/robot-red.png'); // Load the new image for the red rocket
+  robotRedHappy = loadImage('./assets/robot-red-happy.png'); // Load the new image for the red rocket
+
 }
 
 function drawAxes() {
@@ -284,15 +290,16 @@ function drawRocketLandingYellow() {
     imageMode(CENTER);
     image(rocketImageYellow, 0, 0, 200, 100); // Adjust size to fit your rocket image
     pop();
-  }else{
+  } else {
     drawRocketLaunchYellow();
   }
 }
 
-function drawRocketLaunchYellow(){
+function drawRocketLaunchYellow() {
   // image(yellowShip, rocketX, rocketY, 50, 50);
-  image(newImageYellow, rocketX + 75, rocketY - 40, 200, 150);
+  image(newImageYellow, rocketX + 75, 560, 200, 150);
   drawRotatedImageYellow(rocketImageYellow, rocketX, rocketY, 200, 100); // Example usage
+  rocketY -= descentSpeed;
 }
 
 function drawRotatedImageYellow(img, x, y, w, h) {
@@ -327,6 +334,8 @@ function drawRocketLandingRed() {
       if (rocketY2 > 600) {
         rocketY2 = 600;
         redRocketLanded = true; // Mark the red rocket as landed
+
+
       }
     }
   }
@@ -341,12 +350,13 @@ function drawRocketLandingRed() {
     rotate(HALF_PI); // Rotate the image to be nose-up for descent
   }
   imageMode(CENTER);
-  image(rocketImageRed, 0, 0, 180, 130); // Adjust size to fit your red rocket image
+  image(rocketImageRed, 0, 0, 200, 130); // Adjust size to fit your red rocket image
   pop();
 
   // Display the new image next to the existing rocket image
   if (redRocketLanded) {
     drawRocketLaunchRed();
+    redRocketLaunch = true;
   }
 }
 
@@ -359,11 +369,25 @@ function drawRotatedImageRed(img, x, y, w, h) {
   pop();
 }
 
-function drawRocketLaunchRed(){
-  // image(yellowShip, rocketX, rocketY, 50, 50);
-  image(newImageRed, rocketX2 + 75, rocketY2 - 40, 200, 150);
-  drawRotatedImageRed(rocketImageRed, rocketX2, rocketY2, 200, 100); // Example usage
-  rocketY2 -= descentSpeed
+function drawRocketLaunchRed() {
+  if(!robotHappy){
+  image(newImageRed, redRobotX, 550, 200, 150);
+  drawRotatedImageRed(rocketImageRed, redRobotX, rocketY2, 200, 130); // Example usage
+  setTimeout(() => {
+    rocketY2 -= descentSpeed;
+    redRobotX += descentSpeed
+
+  }, 1000)
+  if (redRobotX > 600 ) {
+    redRobotX = 600;
+    // robotHappy = true;
+    // if(redRobotX = 600){
+    //   drawHappyRobot();
+    // }
+  }}
+}
+function drawHappyRobot(){
+  image(robotRedHappy, redRobotX, 550, 200, 150);
 }
 
 function draw() {
@@ -373,8 +397,7 @@ function draw() {
     // startAnimation();
     drawBG();
     moveBG();
-    drawRedRobot();
-    // drawDialog();
+    // drawRedRobot();
     moveTrain();
     drawRocketLandingYellow();
     drawRocketLandingRed();
