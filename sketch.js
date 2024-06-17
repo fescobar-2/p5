@@ -1,7 +1,7 @@
 let stars = [];
 let pages = [
-  "Once upon a time in a galaxy far far away lived two little robots, they had been hanging out for a long time, everything was going ok, until .",
-  "One day, a young rabbit came to the owl with a problem. 'I want to be the fastest animal in the forest,' said the rabbit. The owl thought for a moment and then replied, 'To be the fastest, you must practice every day and never give up.'"
+  "Once upon a time in a galaxy far far away lived two little robots, Arturita and Sonny, they had been hanging out for a long time, they shared many things",
+  "One day there was a problem, but they both knew they wanted to find a solution, Arturita was mad...."
 ];
 let currentPage = 0;
 let charIndex = 0;
@@ -12,11 +12,14 @@ let showStory = true;
 let img1, img2;
 let dialog = [
   { speaker: 1, text: "Hello there!" },
-  { speaker: 2, text: "Hi! How are you?" },
-  { speaker: 1, text: "I'm good, thanks. What about you?" },
-  { speaker: 2, text: "Doing great!" }
+  { speaker: 2, text: "Hi!" },
+  { speaker: 1, text: "How are you?" },
+  { speaker: 2, text: "I'm doing OK" },
 ];
+
 let currentDialog = 0;
+let dialogTimer = 0;
+let dialogInterval = 3000; // Interval in milliseconds for each dialog
 
 // assets
 let backgroundImage;
@@ -69,7 +72,8 @@ let redRocketLanded = false;
 let yellowRocketLanded = false;
 let redRocketLaunch = false;
 let yellowRocketLaunch = false;
-let redRobotX = 300;
+let redRobotX = 450;
+let yellowRobotX = 750;
 let robotHappy = false;
 
 // Elliptical path parameters for the second rocket
@@ -87,6 +91,7 @@ function setup() {
   textSize(32);
   fill(0);
   timer = millis(); // Initialize the timer
+  dialogTimer = millis(); // Start the dialog timer immediately
   //rocket landing
   cx = width / 2;
   cy = height / 2 - radius;
@@ -197,12 +202,6 @@ function playMusic() {
   loop(music);
 }
 
-function drawRedRobot() {
-  // image(redRobot, 200, 600, 120, 150);
-  // image(dialogLeft, 250, 525, 190, 120);
-  // image(pinkShip, 400, 150, 160, 120)
-  // image(yellowShip, 1000, 200, 150, 120)
-}
 
 function drawStoryBox() {
   drawBG();
@@ -257,7 +256,7 @@ function drawRocketLandingYellow() {
 
     if (!descent) {
       // Circular motion for quarter-circle (from PI/2 to PI)
-      rocketX = cx + radius * cos(angle);
+      rocketX = cx + radius * cos(angle) + 550;
       rocketY = cy + radius * sin(angle);
       angle += 0.02; // Increment the angle to move the rocket
 
@@ -265,7 +264,7 @@ function drawRocketLandingYellow() {
       if (angle >= PI) {
         descent = true;
         // Set the rocket to the vertical position at the end of the circular path
-        rocketX = cx + radius * cos(PI);
+        rocketX = cx + radius * cos(PI) + 550;
         rocketY = cy + radius * sin(PI);
       }
     } else {
@@ -297,9 +296,16 @@ function drawRocketLandingYellow() {
 
 function drawRocketLaunchYellow() {
   // image(yellowShip, rocketX, rocketY, 50, 50);
-  image(newImageYellow, rocketX + 75, 560, 200, 150);
+  image(newImageYellow, yellowRobotX + 300, 560, 200, 150);
   drawRotatedImageYellow(rocketImageYellow, rocketX, rocketY, 200, 100); // Example usage
-  rocketY -= descentSpeed;
+  setTimeout(() => {
+    rocketY -= descentSpeed;
+  }, 1000)
+  // rocketY -= descentSpeed;
+  yellowRobotX -= descentSpeed;
+  if(yellowRobotX < 600){
+    yellowRobotX = 600
+  }
 }
 
 function drawRotatedImageYellow(img, x, y, w, h) {
@@ -315,16 +321,16 @@ function drawRocketLandingRed() {
   if (!redRocketLanded) {
     if (!descent2) {
       // Elliptical motion for the second rocket
-      rocketX2 = cx2 + ellipseRadiusX * cos(angle2);
-      rocketY2 = cy2 + ellipseRadiusY * sin(angle2);
+      rocketX2 = cx2 + ellipseRadiusX * cos(angle2) + 400;
+      rocketY2 = cy2 + ellipseRadiusY * sin(angle2) + 100;
       angle2 += 0.02; // Increment the angle to move the rocket
 
       // Check if we should start descending (angle has rotated through quarter ellipse)
       if (angle2 >= PI) {
         descent2 = true;
         // Set the rocket to the vertical position at the end of the elliptical path
-        rocketX2 = cx2 + ellipseRadiusX * cos(PI);
-        rocketY2 = cy2 + ellipseRadiusY * sin(PI);
+        rocketX2 = cx2 + ellipseRadiusX * cos(PI) + 400;
+        rocketY2 = cy2 + ellipseRadiusY * sin(PI) + 100;
       }
     } else {
       // Descent
@@ -370,41 +376,68 @@ function drawRotatedImageRed(img, x, y, w, h) {
 }
 
 function drawRocketLaunchRed() {
-  if(!robotHappy){
+  // if (!robotHappy) {
   image(newImageRed, redRobotX, 550, 200, 150);
   drawRotatedImageRed(rocketImageRed, redRobotX, rocketY2, 200, 130); // Example usage
   setTimeout(() => {
     rocketY2 -= descentSpeed;
-    redRobotX += descentSpeed
-
   }, 1000)
-  if (redRobotX > 600 ) {
+  redRobotX += descentSpeed
+  if (redRobotX > 600) {
     redRobotX = 600;
-    // robotHappy = true;
-    // if(redRobotX = 600){
-    //   drawHappyRobot();
+    // image(robotRedHappy, redRobotX, 550, 200, 150);
+    // image(dialogLeft, 700, 450, 250, 130);
+    textSize(18);
+    handleDialog();
+    // text("I'm very upset! >:(", 740, 470, 200, 100);
+    //   // robotHappy = true;
+    //   // if(redRobotX = 600){
+        drawHappyRobot();
+    //   // }
+    // } else {
     // }
-  }}
+  }
 }
-function drawHappyRobot(){
-  image(robotRedHappy, redRobotX, 550, 200, 150);
+function drawHappyRobot() {
 }
 
 function draw() {
+  playMusic();
   if (showStory) {
     drawStoryBox();
   } else {
-    // startAnimation();
     drawBG();
     moveBG();
-    // drawRedRobot();
     moveTrain();
     drawRocketLandingYellow();
     drawRocketLandingRed();
     // drawTrail();
     // moveTrail();
     // drawFont();
-    // playMusic();
     // drawAxes();
   }
+}
+
+function handleDialog() {
+  if (millis() - dialogTimer > dialogInterval && currentDialog < dialog.length) {
+    currentDialog++;
+    dialogTimer = millis();
+  }
+  displayDialog();
+}
+
+function displayDialog() {
+  if (currentDialog >= dialog.length) {
+    return; // No more dialogues to display
+  }
+  let dialogEntry = dialog[currentDialog];
+  let bubbleImg = dialogEntry.speaker === 1 ? dialogLeft : dialogRight;
+  let x = dialogEntry.speaker === 1 ? 650 : 800;
+  let y = dialogEntry.speaker === 1 ? 430 : 430;
+  let textX = x + 40;
+  let textY = y + 30;
+
+  image(bubbleImg, x, y, 250, 150);
+  textSize(18);
+  text(dialogEntry.text, textX, textY, 200, 100);
 }
