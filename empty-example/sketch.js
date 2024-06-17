@@ -38,7 +38,7 @@ function preload() {
   backgroundImage = loadImage("../assets/background-og.jpg");
   cloud = loadImage("../assets/cloud.jpg");
   trail = loadImage("../assets/train-og.png");
-  train = loadImage("../assets/sorry.png");
+  train = loadImage("../assets/train-og.png");
   trainShadow = loadImage("../assets/train-og.png");
   // music = loadSound("assets/music.mp3");
 }
@@ -100,13 +100,13 @@ function moveCloud() {
 
 // train functions
 function drawTrain() {
-  image(train, 200, 200, 500, 136);
+  image(train, 200, 200, 250, 136);
   // image(trainShadow, trainPosX, trainPosY + 30, 456, 136)
 }
 
 function moveTrain() {
   trainPosY = 1 + (random(-1, 1));
-  if (trainPosY >=  0) {
+  if (trainPosY >= 200) {
     trainPosY = 1;
   } if (trainPosY <= 0) {
     trainPosY = 1;
