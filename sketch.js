@@ -1,7 +1,6 @@
 let stars = [];
 let pages = [
   "Once upon a time in a galaxy far far away ....",
-  "One day there was a problem, but they both knew they wanted to find a solution, Arturita was mad...."
 ];
 let currentPage = 0;
 let charIndex = 0;
@@ -388,11 +387,11 @@ function drawRocketLaunchRed() {
     // image(robotRedHappy, redRobotX, 550, 200, 150);
     // image(dialogLeft, 700, 450, 250, 130);
     textSize(18);
-    handleDialog();
+    // handleDialog();
     // text("I'm very upset! >:(", 740, 470, 200, 100);
     //   // robotHappy = true;
     //   // if(redRobotX = 600){
-        drawHappyRobot();
+        // drawHappyRobot();
     //   // }
     // } else {
     // }
@@ -402,10 +401,10 @@ function drawHappyRobot() {
 }
 
 function draw() {
-  playMusic();
-  if (showStory) {
-    drawStoryBox();
-  } else {
+  // playMusic();
+  // if (showStory) {
+  //   drawStoryBox();
+  // } else {
     drawBG();
     moveBG();
     moveTrain();
@@ -415,7 +414,7 @@ function draw() {
     // moveTrail();
     // drawFont();
     // drawAxes();
-  }
+  // }
 }
 
 function handleDialog() {
