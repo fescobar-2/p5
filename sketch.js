@@ -81,6 +81,16 @@ const ellipseRadiusX = 150;
 const ellipseRadiusY = 75;
 let rocketImageRed; // Rocket image
 let newImageRed; // New image when the red rocket lands
+let yellowRobotCanMove = false;
+let yellowRobotSpeed = 5;
+let initialMovementDone = false;
+let leftArrowPressed = false;
+let rightArrowPressed = false;
+let jumping = false;
+let jumpY = 0;
+let jumpSpeed = 10;
+let gravity = 0.5;
+let yellowRobotY = 560; // Initial Y position of the robot
 
 function setup() {
   createCanvas(1640, 760);
@@ -294,6 +304,29 @@ function drawRocketLandingYellow() {
   }
 }
 
+function keyPressed() {
+  if (yellowRobotCanMove) {
+    if (keyCode === LEFT_ARROW) {
+      leftArrowPressed = true;
+    } else if (keyCode === RIGHT_ARROW) {
+      rightArrowPressed = true;
+    } else if (keyCode === 32 && !jumping) { // Spacebar is pressed
+      jumping = true;
+      // jumpY = yellowRobotX; // Initialize jumpY with the current position
+    }
+  }
+}
+
+function keyReleased() {
+  if (yellowRobotCanMove) {
+    if (keyCode === LEFT_ARROW) {
+      leftArrowPressed = false;
+    } else if (keyCode === RIGHT_ARROW) {
+      rightArrowPressed = false;
+    }
+  }
+}
+
 function drawRocketLaunchYellow() {
   // image(yellowShip, rocketX, rocketY, 50, 50);
   image(newImageYellow, yellowRobotX + 300, 560, 200, 150);
@@ -302,10 +335,20 @@ function drawRocketLaunchYellow() {
     rocketY -= descentSpeed;
   }, 1000)
   // rocketY -= descentSpeed;
-  yellowRobotX -= descentSpeed;
-  if(yellowRobotX < 600){
-    yellowRobotX = 600
+  if (!yellowRobotCanMove && !initialMovementDone) {
+    yellowRobotX -= descentSpeed;
+    rocketY -= descentSpeed;
+    yellowRobotX -= descentSpeed;
+    if (yellowRobotX < 600) {
+      yellowRobotX = 600;
+      yellowRobotCanMove = true; // Allow robot to move after stopping
+      initialMovementDone = true; // Mark initial movement as done
+    }
   }
+
+  // if (yellowRobotCanMove) {
+  //   handleKeyPress();
+  // }
 }
 
 function drawRotatedImageYellow(img, x, y, w, h) {
@@ -410,11 +453,33 @@ function draw() {
     moveBG();
     moveTrain();
     drawRocketLandingYellow();
-    drawRocketLandingRed();
+    if (yellowRobotCanMove) {
+      if (leftArrowPressed) {
+        yellowRobotX -= yellowRobotSpeed;
+      }
+      if (rightArrowPressed) {
+        yellowRobotX += yellowRobotSpeed;
+      }
+
+      // Handle jump movement
+      if (jumping) {
+        yellowRobotY -= jumpSpeed;
+        jumpSpeed -= gravity;
+        if (yellowRobotY >= 560) { // Assume 560 is the ground level
+          yellowRobotY = 560;
+          jumping = false;
+          jumpSpeed = 10; // Reset jump speed
+        }
+      }
+    }
+        // Draw the robot at its current position
+        // image(newImageYellow, yellowRobotX + 300, yellowRobotY, 200, 150);
+
+    // drawRocketLandingRed();
     // drawTrail();
     // moveTrail();
     // drawFont();
-    // drawAxes();
+    drawAxes();
   }
 }
 
