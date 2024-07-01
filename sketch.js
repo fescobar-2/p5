@@ -1,6 +1,6 @@
 let stars = [];
 let pages = [
-  "Once upon a time in a galaxy far far away lived two little robots, Arturita and Sonny, they had been hanging out for a long time, they shared many things",
+  "Once upon a time in a galaxy far far away ....",
   "One day there was a problem, but they both knew they wanted to find a solution, Arturita was mad...."
 ];
 let currentPage = 0;
@@ -125,7 +125,7 @@ function preload() {
   rocketImageYellow = loadImage('./assets/space-ship-yellow.png');
   rocketImageRed = loadImage('./assets/space-ship-pink.png');
   newImageYellow = loadImage('./assets/robot-yellow.png'); // Load the new image for the yellow rocket
-  newImageRed = loadImage('./assets/robot-red.png'); // Load the new image for the red rocket
+  newImageRed = loadImage('./assets/robot-red-happy.png'); // Load the new image for the red rocket
   robotRedHappy = loadImage('./assets/robot-red-happy.png'); // Load the new image for the red rocket
 
 }
